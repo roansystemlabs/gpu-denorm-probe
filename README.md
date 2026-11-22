@@ -79,8 +79,8 @@ the exact environments.
 | NVIDIA GeForce RTX 3080 (`10de:2206`) | 32.0.16.1742 | all flushed to `+0` | all preserved | all preserved | @MoonYueya, [comment](https://github.com/R0Y00/Xbox2Windows/issues/312#issuecomment-7078370705) |
 | AMD Radeon(TM) Graphics, RDNA2 iGPU (`1002:164e`) | 32.0.11024.2 | all flushed to `+0` | all preserved | all preserved | @MoonYueya, [comment](https://github.com/R0Y00/Xbox2Windows/issues/312#issuecomment-7078370705) |
 | AMD Radeon RX 9070 XT (`1002:7550`) | 32.0.32029.2010 | all flushed to `+0` | all preserved | all preserved | @rwZephyr, [comment](https://github.com/R0Y00/Xbox2Windows/issues/312#issuecomment-7083868420) |
-| WARP (`1414:008c`) | 10.0.26100.9818 | flushed; `max(least, -0)` gives `-0` | all preserved | all preserved | Roan System Labs (this repository); @rwZephyr |
-| WARP (`1414:008c`) | 10.0.26100.9711 | flushed; `max(least, -0)` gives `-0` | all preserved | all preserved | @MoonYueya |
+| WARP (`1414:008c`) | 10.0.26100.9818 | flushed; `max(least, -0)` gives `-0` | all preserved | all preserved | Roan System Labs (this repository); @rwZephyr, [comment](https://github.com/R0Y00/Xbox2Windows/issues/312#issuecomment-7083868420) |
+| WARP (`1414:008c`) | 10.0.26100.9711 | flushed; `max(least, -0)` gives `-0` | all preserved | all preserved | @MoonYueya, [comment](https://github.com/R0Y00/Xbox2Windows/issues/312#issuecomment-7078370705) |
 
 "Preserved" values: f32 add/min/max `0x00000001`, multiply `0x00400000`; f16 add/min/max/narrow/move
 `0x0001`, multiply `0x0200`, widen `0x33800000`. In every build DXC recorded only
