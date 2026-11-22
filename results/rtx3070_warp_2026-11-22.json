@@ -1,0 +1,883 @@
+{
+  "tool": "gpu-denorm-probe",
+  "os": "Windows 10.0.26200",
+  "dxc": "dxcompiler.dll: 1.9(5184-21d28f72)(1.9.2602.17) - 1.9.2602.17 (21d28f727)",
+  "results": [
+    {
+      "backend": "hardware",
+      "adapter": {
+        "adapter": "NVIDIA GeForce RTX 3070",
+        "vendor": "10de",
+        "device": "2484",
+        "driver": "32.0.16.2101",
+        "shader_model": "6.2",
+        "native_16bit": "1"
+      },
+      "builds": [
+        {
+          "type": "f32",
+          "denorm_flag": "(none)",
+          "dxil_attrs": [],
+          "words": [
+            "00000000",
+            "00000000",
+            "00000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "any",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"any\""
+          ],
+          "words": [
+            "00000000",
+            "00000000",
+            "00000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "ftz",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"ftz\""
+          ],
+          "words": [
+            "00000000",
+            "00000000",
+            "00000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "preserve",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"preserve\""
+          ],
+          "words": [
+            "00000001",
+            "00000001",
+            "00000001",
+            "00400000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00400000",
+              "expected_if_preserved": "00400000",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "(none)",
+          "dxil_attrs": [],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "any",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"any\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "ftz",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"ftz\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "preserve",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"preserve\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        }
+      ],
+      "negative_control": true
+    },
+    {
+      "backend": "warp",
+      "adapter": {
+        "adapter": "Microsoft Basic Render Driver",
+        "vendor": "1414",
+        "device": "008c",
+        "driver": "10.0.26100.9818",
+        "shader_model": "6.2",
+        "native_16bit": "1"
+      },
+      "builds": [
+        {
+          "type": "f32",
+          "denorm_flag": "(none)",
+          "dxil_attrs": [],
+          "words": [
+            "00000000",
+            "00000000",
+            "80000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "80000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (-0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "any",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"any\""
+          ],
+          "words": [
+            "00000000",
+            "00000000",
+            "80000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "80000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (-0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "ftz",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"ftz\""
+          ],
+          "words": [
+            "00000000",
+            "00000000",
+            "80000000",
+            "00000000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (+0)"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "80000000",
+              "expected_if_preserved": "00000001",
+              "state": "flushed (-0)"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00000000",
+              "expected_if_preserved": "00400000",
+              "state": "flushed (+0)"
+            }
+          ]
+        },
+        {
+          "type": "f32",
+          "denorm_flag": "preserve",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"preserve\""
+          ],
+          "words": [
+            "00000001",
+            "00000001",
+            "00000001",
+            "00400000"
+          ],
+          "rows": [
+            {
+              "row": "add 0x00800001 + 0x80800000",
+              "required": true,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(least, largest)",
+              "required": false,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(least, -0)",
+              "required": false,
+              "value": "00000001",
+              "expected_if_preserved": "00000001",
+              "state": "preserved"
+            },
+            {
+              "row": "least normal * 0.5",
+              "required": false,
+              "value": "00400000",
+              "expected_if_preserved": "00400000",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "(none)",
+          "dxil_attrs": [],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "any",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"any\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "ftz",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"ftz\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        },
+        {
+          "type": "f16",
+          "denorm_flag": "preserve",
+          "dxil_attrs": [
+            "\"fp32-denorm-mode\"=\"preserve\""
+          ],
+          "words": [
+            "00010001",
+            "02000001",
+            "33800000",
+            "00010001"
+          ],
+          "rows": [
+            {
+              "row": "add 0x0401 + 0x8400",
+              "required": true,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "min(0x0001, 0x03ff)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "max(0x0001, -0)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "0x0400 * 0.5",
+              "required": false,
+              "value": "0200",
+              "expected_if_preserved": "0200",
+              "state": "preserved"
+            },
+            {
+              "row": "f32(f16 0x0001)",
+              "required": false,
+              "value": "33800000",
+              "expected_if_preserved": "33800000",
+              "state": "preserved"
+            },
+            {
+              "row": "f16(f32 2^-24)",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            },
+            {
+              "row": "move(0x0001) [mode-independent]",
+              "required": false,
+              "value": "0001",
+              "expected_if_preserved": "0001",
+              "state": "preserved"
+            }
+          ]
+        }
+      ],
+      "negative_control": true
+    }
+  ]
+}

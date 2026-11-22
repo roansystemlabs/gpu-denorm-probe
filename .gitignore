@@ -1,0 +1,8 @@
+build/
+build-cmake/
+*.obj
+*.pdb
+*.cso
+*.lst
+__pycache__/
+results*.json
