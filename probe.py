@@ -7,7 +7,7 @@ adapter(s) and classifies every row as `preserved`, `flushed (+0)` / `flushed (-
 
 Usage:
     python -I probe.py [--backend hardware|warp|both] [--adapter NAME]
-                       [--dxc PATH] [--runner PATH] [--out DIR] [--json FILE]
+                       [--dxc PATH] [--runner PATH] [--out DIR] [--json FILE] [--no-banner]
 
 Exit codes: 0 ok; 1 a build failed to compile or draw; 2 negative control failed (the f32
 `-denorm ftz` build did not flush the required add row on some adapter); 3 tools not found.
@@ -27,6 +27,8 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+
+__version__ = "1.0.0"
 
 HERE = Path(__file__).resolve().parent
 SHADERS = HERE / "shaders"
@@ -165,6 +167,45 @@ def print_backend(result: dict) -> None:
                                  "FAILED: f32 -denorm ftz did not flush the required add row"))
 
 
+BANNER_LOGO = (r" \\      //", r"  \\    //", r"   \\  //", r"    \\//", r"     \/")
+
+
+def enable_ansi() -> bool:
+    """True if stdout is a terminal that accepts ANSI colours (VT mode on Windows 10+)."""
+    if os.environ.get("NO_COLOR"):
+        return False
+    if os.name != "nt":
+        return os.environ.get("TERM", "") != "dumb"
+    try:
+        import ctypes
+        from ctypes import wintypes
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.GetStdHandle.restype = wintypes.HANDLE
+        kernel32.GetConsoleMode.argtypes = (wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD))
+        kernel32.SetConsoleMode.argtypes = (wintypes.HANDLE, wintypes.DWORD)
+        handle = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+        mode = wintypes.DWORD()
+        if not kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+            return False
+        # ENABLE_VIRTUAL_TERMINAL_PROCESSING (Windows 10 1511 and later)
+        return bool(mode.value & 0x0004 or kernel32.SetConsoleMode(handle, mode.value | 0x0004))
+    except (AttributeError, OSError):
+        return False
+
+
+def print_banner() -> None:
+    """Short start-up header, shown only on an interactive terminal."""
+    sep = " · " if (sys.stdout.encoding or "").lower().replace("-", "") == "utf8" else " - "
+    text = ["", f"Roan System Labs{sep}gpu-denorm-probe v{__version__}", "https://roansystem.com", "", ""]
+    colour = enable_ansi()
+    cyan, bold, reset = ("\033[36m", "\033[1m", "\033[0m") if colour else ("", "", "")
+    print()
+    for logo, line in zip(BANNER_LOGO, text):
+        line = f"{bold}{line}{reset}" if colour and "Roan" in line else line
+        print(f"{cyan}{logo:<14}{reset}{line}".rstrip())
+    print()
+
+
 def dxc_version(dxc: str) -> str:
     r = subprocess.run([dxc, "--version"], capture_output=True, text=True)
     return (r.stdout or r.stderr).strip().splitlines()[0] if (r.stdout or r.stderr).strip() else "?"
@@ -178,7 +219,13 @@ def main() -> int:
     parser.add_argument("--runner", help="path to probe_runner.exe (default: build/probe_runner.exe)")
     parser.add_argument("--out", help="keep compiled shaders and DXIL listings in this directory")
     parser.add_argument("--json", help="write the full result as JSON to this file")
+    parser.add_argument("--no-banner", action="store_true",
+                        help="skip the start-up header (it is also skipped with --json or redirected output)")
+    parser.add_argument("--version", action="version", version=f"gpu-denorm-probe {__version__}")
     args = parser.parse_args()
+
+    if not (args.no_banner or args.json or not sys.stdout.isatty()):
+        print_banner()
 
     dxc, runner = find_dxc(args.dxc), find_runner(args.runner)
     if not dxc or not runner:

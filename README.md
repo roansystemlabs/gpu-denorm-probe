@@ -44,6 +44,27 @@ python -I probe.py
 `build.cmd` finds MSVC through `vswhere` and writes `build\probe_runner.exe`
 (CMake works too: `cmake -B build-cmake && cmake --build build-cmake --config Release`).
 
+On an interactive terminal the probe starts with a short header (in cyan where the console
+supports ANSI colours, including Windows 10 and later), then the measurement follows. A WARP run
+looks like this:
+
+```text
+ \\      //
+  \\    //    Roan System Labs · gpu-denorm-probe v1.0.0
+   \\  //     https://roansystem.com
+    \\//
+     \/
+
+os=Windows 10.0.26200  dxc=dxcompiler.dll: 1.9(5184-21d28f72)(1.9.2602.17) - 1.9.2602.17 (21d28f727)
+== warp: Microsoft Basic Render Driver vendor=1414 device=008c driver=10.0.26100.9818 sm=6.2 native16=1
+[f32] ps_6_2 (no -denorm): dxil_attrs=['(none)']
+    REQUIRED add 0x00800001 + 0x80800000        00000000  flushed (+0)
+...
+```
+
+The header is skipped with `--no-banner`, with `--json`, and whenever the output is redirected
+or piped, so scripts see only the results. `NO_COLOR` turns the colour off.
+
 Options of `probe.py`:
 
 | Option | Meaning |
@@ -54,6 +75,8 @@ Options of `probe.py`:
 | `--runner PATH` | `probe_runner.exe` to use (default: `build\probe_runner.exe`) |
 | `--out DIR` | keep the compiled shaders and DXIL listings |
 | `--json FILE` | write the full result (adapter, driver, DXC version, raw words, classes) as JSON |
+| `--no-banner` | skip the start-up header |
+| `--version` | print the version and exit |
 
 Each row is classified as `preserved`, `flushed (+0)` / `flushed (-0)` (a zero of either sign) or
 `other`. Exit codes: `0` ok, `1` a build failed to compile or draw (for example a driver that
