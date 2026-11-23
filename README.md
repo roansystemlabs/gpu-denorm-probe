@@ -1,4 +1,15 @@
+<p align="center">
+  <a href="https://roansystem.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/roan-system-logo-dark.svg">
+      <img src="assets/roan-system-logo-light.svg" alt="Roan System" width="264">
+    </picture>
+  </a>
+</p>
+
 # gpu-denorm-probe
+
+Made by Roan System — https://roansystem.com · GitHub: [@roansystemlabs](https://github.com/roansystemlabs)
 
 A small, standalone D3D12 probe that tells you whether a GPU **keeps or flushes subnormal
 (denormal) floats** in pixel shaders, for binary32 (`float`) and binary16 (`half`), under each
@@ -134,9 +145,10 @@ The probe was written for the denormal-mode discussion in
 that project's renderer. This repository replaces that renderer with a minimal D3D12 runner of
 its own; it contains no code from Xbox2Windows.
 
-Made by Roan System Labs. AI-assisted: the code and text were prepared with an AI coding agent
-and the measurements were run on real hardware; results from other people are linked to their
-own reports.
+Made by Roan System — https://roansystem.com · more tools and contributions on
+[github.com/roansystemlabs](https://github.com/roansystemlabs). AI-assisted: the code and text
+were prepared with an AI coding agent and the measurements were run on real hardware; results
+from other people are linked to their own reports.
 
 ## License
 
